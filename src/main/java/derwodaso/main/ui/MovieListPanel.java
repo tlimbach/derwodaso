@@ -40,11 +40,12 @@ class MovieListPanel extends JPanel {
     private final JTextField txtSearch;
     private final DefaultListModel<Movie> movieModel;
     private List<Movie> movies;
+    private final JPanel pnlInner;
 
     public MovieListPanel(final Controller controller) {
         setLayout(new BorderLayout());
 
-        JPanel pnlInner = new JPanel();
+        pnlInner = new JPanel();
         pnlInner.setLayout(new BorderLayout());
         pnlInner.setBorder(BorderFactory.createTitledBorder("andere Filme"));
         add(pnlInner, BorderLayout.CENTER);
@@ -101,12 +102,8 @@ class MovieListPanel extends JPanel {
 
     public void setMovies(Caracter character, List<Movie> movies) {
         this.movies = movies;
-        Collections.sort(movies, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-        });
+        pnlInner.setBorder(BorderFactory.createTitledBorder("andere Filme mit " + character.getActor().getName()));
+        Collections.sort(movies);
         fillModel(null);
     }
 

@@ -27,6 +27,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -257,16 +258,19 @@ class MoviePanel extends JPanel {
     }
 
     public void setActors(List<Actor> actors) {
+        Collections.sort(actors);
         cbxActors.removeAllItems();
         actors.forEach(a -> cbxActors.addItem(a));
     }
 
     public void setCharacters(List<Caracter> characters) {
+        Collections.sort(characters);
         cbxCharacters.removeAllItems();
         characters.forEach(cbxCharacters::addItem);
     }
 
     void setMovies(List<Movie> movies) {
+        Collections.sort(movies);
         cbxMovies.removeAllItems();
         movies.forEach(cbxMovies::addItem);
     }

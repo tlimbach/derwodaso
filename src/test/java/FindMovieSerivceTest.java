@@ -8,6 +8,7 @@ import java.util.List;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
 import derwodaso.main.service.FindService;
+import derwodaso.main.service.HttpURLConnectionService;
 import java.net.URL;
 import static org.hamcrest.CoreMatchers.is;
 import org.json.simple.parser.ParseException;
@@ -95,4 +96,15 @@ public class FindMovieSerivceTest
        URL url = service.searchMovieWikiUrl(new Movie("Der Untergang", null, 0L));
        assertThat(url.toExternalForm() , is("https://de.wikipedia.org/wiki/Der_Untergang"));
    }
+   
+   @Test
+   public void findWikiUrlTraumschiffSurprise() {
+       FindService service = new FindService(null);
+       URL url = service.searchMovieWikiUrl(new Movie("(T)Raumschiff Surprise - Periode 1", null, 0L));
+       assertThat(url.toExternalForm() , is("https://de.wikipedia.org/wiki/(T)Raumschiff_Surprise_-_Periode_1"));
+   }
+   
+
+   
+   
 }

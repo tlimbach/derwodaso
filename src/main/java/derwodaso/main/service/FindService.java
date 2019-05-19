@@ -178,7 +178,6 @@ public class FindService {
             String response = connService.sendDuckDuckGoGet(request);
 
             System.out.println("request = " + request);
-
             System.out.println("response = " + response);
 
             if (response.contains("\"AbstractURL\":\"\"")) {

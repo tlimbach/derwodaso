@@ -9,24 +9,21 @@ package derwodaso.main.model;
  *
  * @author tlimbach
  */
-public class Caracter
-{
+public class Caracter implements Comparable<Caracter> {
+
     Actor actor;
     String name;
 
-    public Caracter( String name, Actor actor )
-    {
+    public Caracter(String name, Actor actor) {
         this.actor = actor;
         this.name = name;
     }
 
-    public Actor getActor()
-    {
+    public Actor getActor() {
         return actor;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -34,6 +31,19 @@ public class Caracter
     public String toString() {
         return this.getName();
     }
-    
-    
+
+    @Override
+    public int compareTo(Caracter o) {
+
+        int res = 0;
+
+        try {
+            res = this.getName().compareTo(o.getName());
+        } catch (Exception e) {
+            // dont care
+        }
+
+        return res;
+    }
+
 }

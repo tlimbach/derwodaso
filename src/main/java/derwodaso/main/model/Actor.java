@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author tlimbach
  */
-public class Actor {
+public class Actor implements Comparable<Actor>{
 
     private final String name;
     private final Long id;
@@ -48,6 +48,11 @@ public class Actor {
 
     public URL getUrlWiki() {
         return urlWiki;
+    }
+
+    @Override
+    public int compareTo(Actor o) {
+        return this.getName().compareTo(o.getName());
     }
 
 }

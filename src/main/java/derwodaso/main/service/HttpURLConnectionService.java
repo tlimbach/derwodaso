@@ -35,8 +35,8 @@ public class HttpURLConnectionService {
 
         String url = null;
 
-        urlAsString = urlAsString.replaceAll(" ", "%20");
-
+        urlAsString = urlAsString.replaceAll("[()-]", "");
+        
         if (map.get(urlAsString) != null) {
             cacheCounter++;
             System.out.println("cache counter " + cacheCounter);
@@ -125,6 +125,10 @@ public class HttpURLConnectionService {
         container.setCursor(Cursor.getDefaultCursor());
         return responeAsString;
 
+    }
+    
+    public String cleanUrl(String url) {
+        return "x";
     }
 
 }

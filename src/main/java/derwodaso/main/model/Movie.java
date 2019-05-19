@@ -6,13 +6,12 @@
 package derwodaso.main.model;
 
 import java.net.URL;
-import java.util.List;
 
 /**
  *
  * @author tlimbach
  */
-public class Movie {
+public class Movie implements Comparable<Movie>{
 
     private String backdropPath;
     private String releaseDate;
@@ -85,6 +84,11 @@ public class Movie {
 
     public URL getUrlMovie() {
         return urlMovie;
+    }
+
+    @Override
+    public int compareTo(Movie o) {
+        return this.getTitle().compareTo(o.getTitle());
     }
     
     
