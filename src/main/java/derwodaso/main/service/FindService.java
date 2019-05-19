@@ -158,15 +158,55 @@ public class FindService {
         return parseResultForMoviesByActor(res);
     }
 
+    public URL searchMovieUrl(Movie movie) {
+        try {
+            String req = "https://api.duckduckgo.com/?q=" + movie.getTitle() + " film&format=json";
+            final String jsonString = connService.sendDuckDuckGoGet(req);
+
+            String movieUrl = getMovieUrl(jsonString);
+
+            return new URL(movieUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public URL searchMovieWikiUrl(Movie movie) {
-//        try {
-//            String req = "https://www.google.com/search?q=\"" + movie.getTitle() + "\"+film+wiki";
-//            final Pattern pattern = Pattern.compile("https://de.wikipedia.org/wiki/.*?&");
-//            final String getResult = connService.sendGoogleGet(pattern, req);
-//            return new URL(getResult);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String request = "https://api.duckduckgo.com/?q=" + movie.getTitle() + " film&format=json";
+            String response = connService.sendDuckDuckGoGet(request);
+
+            System.out.println("request = " + request);
+
+            System.out.println("response = " + response);
+
+            if (response.contains("\"AbstractURL\":\"\"")) {
+                request = "https://api.duckduckgo.com/?q=" + movie.getTitle() + "&format=json";
+            }
+            System.out.println("request = " + request);
+            response = connService.sendDuckDuckGoGet(request);
+
+            String wikiMovieUrl = getMovieWikiUrl(response);
+
+            return new URL(wikiMovieUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public URL searchActorWikiUrl(Actor actor) {
+        try {
+            String req = "https://api.duckduckgo.com/?q=" + actor.getName() + "&format=json";
+            final String jsonString = connService.sendDuckDuckGoGet(req);
+
+            String wikiMovieUrl = getActorWikiUrl(jsonString);
+
+            return new URL(wikiMovieUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -174,16 +214,42 @@ public class FindService {
         this.apiKey = apiKey;
     }
 
-    public URL searchActorWikiUrl(Actor actor) {
-//        try {
-//            String req = "https://www.google.com/search?q=\"" + actor.getName() + "\"+wiki";
-//            final Pattern pattern = Pattern.compile("https://de.wikipedia.org/wiki/.*?&");
-//            final String getResult = connService.sendGoogleGet(pattern, req);
-//            return new URL(getResult);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        return null;
+    public String getMovieWikiUrl(String jsonString) throws ParseException {
+        String url = null;
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(jsonString);
+            url = (String) json.get("AbstractURL");
+        } catch (Exception e) {
+            // egal
+        }
+        return url;
+    }
+
+    private String getActorWikiUrl(String jsonString) {
+        String url = null;
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(jsonString);
+            url = (String) json.get("AbstractURL");
+        } catch (Exception e) {
+            // egal
+        }
+        return url;
+    }
+
+    public String getMovieUrl(String jsonString) {
+        String url = null;
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(jsonString);
+            JSONArray results = (JSONArray) json.get("Results");
+            JSONObject resultOne = (JSONObject) results.get(0);
+            url = (String) resultOne.get("FirstURL");
+        } catch (Exception e) {
+            // egal, dann keine Url für den Film...
+        }
+        return url;
     }
 
 }

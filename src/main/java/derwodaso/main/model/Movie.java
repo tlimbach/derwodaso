@@ -22,6 +22,7 @@ public class Movie {
     private String character;
     
     private URL urlWiki;
+    private URL urlMovie;
 
     public Movie(String title, String posterPath, Long id) {
         this.title = title;
@@ -76,6 +77,14 @@ public class Movie {
 
     public URL getUrlWiki() {
         return urlWiki;
+    }
+    
+    public void setUrlMovie(URL url) {
+        this.urlMovie = url;
+    }
+
+    public URL getUrlMovie() {
+        return urlMovie;
     }
     
     

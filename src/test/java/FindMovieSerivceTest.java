@@ -8,6 +8,7 @@ import java.util.List;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
 import derwodaso.main.service.FindService;
+import java.net.URL;
 import static org.hamcrest.CoreMatchers.is;
 import org.json.simple.parser.ParseException;
 import org.junit.After;
@@ -81,5 +82,17 @@ public class FindMovieSerivceTest
         assertThat( characters.size(), is( 34 ) );
     }
     
+   @Test
+   public void findWikiUrlNVA() {
+       FindService service = new FindService(null);
+       URL url = service.searchMovieWikiUrl(new Movie("NVA", null, 0L));
+       assertThat(url.toExternalForm() , is("https://de.wikipedia.org/wiki/NVA_(Film)"));
+   }
    
+   @Test
+   public void findWikiUrlDerUntergang() {
+       FindService service = new FindService(null);
+       URL url = service.searchMovieWikiUrl(new Movie("Der Untergang", null, 0L));
+       assertThat(url.toExternalForm() , is("https://de.wikipedia.org/wiki/Der_Untergang"));
+   }
 }

@@ -97,20 +97,8 @@ public class Controller {
             String url = "http://image.tmdb.org/t/p/w300//" + this.currentMovie.getPosterPath();
 
             Movie _movie = this.currentMovie;
-            new Thread(() -> {
-                if (_movie.getUrlWiki() == null) {
-                    URL urlWiki;
-                    try {
-                        urlWiki = finder.searchMovieWikiUrl(_movie);
-                        _movie.setUrlWiki(urlWiki);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
-                ui.setMovieWiki(_movie.getUrlWiki());
-
-            }).start();
+            setUrlWiki(_movie);
+            setUrlMovie(_movie);
 
             ui.setSelectedMovie(this.currentMovie, new URL(url), actors, characters);
 
@@ -125,8 +113,40 @@ public class Controller {
         }
     }
 
-    public void setActor(Actor actor) throws MalformedURLException, Exception {
+    private void setUrlWiki(Movie _movie) {
+        new Thread(() -> {
+            if (_movie.getUrlWiki() == null) {
+                URL urlWiki;
+                try {
+                    urlWiki = finder.searchMovieWikiUrl(_movie);
+                    _movie.setUrlWiki(urlWiki);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            ui.setUrlMovieWiki(_movie.getUrlWiki());
+            
+        }).start();
+    }
 
+    private void setUrlMovie(Movie _movie) {
+        new Thread(() -> {
+            if (_movie.getUrlMovie() == null) {
+                URL urlMovie;
+                try {
+                    urlMovie = finder.searchMovieUrl(_movie);
+                    _movie.setUrlMovie(urlMovie);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            ui.setUrlMovie(_movie.getUrlMovie());
+            
+        }).start();
+    }
+
+    public void setActor(Actor actor) throws MalformedURLException, Exception {
+        setWikiUrlActor(actor);
         if (characters != null) {
             for (Caracter c : characters) {
                 if (c.getActor().equals(actor)) {
@@ -138,30 +158,26 @@ public class Controller {
 
         setCharacter(new Caracter("---", actor));
         ui.setCharctersForMovie(Collections.emptyList());
-        ui.setMovieWiki(null);
-        
-        
-       
+        ui.setUrlMovieWiki(null);
 
-            Actor _actor = actor;
-            new Thread(() -> {
-                if (_actor.getUrlWiki() == null) {
-                    URL urlWiki;
-                    try {
-                        urlWiki = finder.searchActorWikiUrl(_actor);
-                        _actor.setUrlWiki(urlWiki);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+    }
 
+    private void setWikiUrlActor(Actor actor) {
+        Actor _actor = actor;
+        new Thread(() -> {
+            if (_actor.getUrlWiki() == null) {
+                URL urlWiki;
+                try {
+                    urlWiki = finder.searchActorWikiUrl(_actor);
+                    _actor.setUrlWiki(urlWiki);
+                } catch (Exception ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                ui.setActorWiki(_actor.getUrlWiki());
-
-            }).start();
-        
-        
-        
-        
+                
+            }
+            ui.setActorWiki(_actor.getUrlWiki());
+            
+        }).start();
     }
 
     public void setCharacter(Caracter character) {

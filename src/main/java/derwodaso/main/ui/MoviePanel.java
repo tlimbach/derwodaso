@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -49,11 +50,13 @@ class MoviePanel extends JPanel {
     private JComboBox<Caracter> cbxCharacters;
     private JLabel lblWikiMovieUrl;
     private JLabel lblWikiActorUrl;
+    private JLabel lblMovieUrl;
     private JPanel pnlPoster;
     private JLabel lblPoster;
     private JPanel pnlLeft;
     private URL wikiMovieUrl;
     private URL wikiActorUrl;
+    private URL movieUrl;
 
     public MoviePanel(Controller controller) {
         init();
@@ -172,7 +175,7 @@ class MoviePanel extends JPanel {
 
         final JPanel noIdea = new JPanel();
         noIdea.setLayout(new BorderLayout());
-        lblWikiMovieUrl = new JLabel();
+        lblWikiMovieUrl = new JLabel("lblWikiMovieUrl");
         lblWikiMovieUrl.setForeground(Color.BLUE.darker());
         lblWikiMovieUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblWikiMovieUrl.addMouseListener(new MouseAdapter() {
@@ -189,7 +192,7 @@ class MoviePanel extends JPanel {
             }
 
         });
-        lblWikiActorUrl = new JLabel();
+        lblWikiActorUrl = new JLabel("lblWikiActorUrl");
         lblWikiActorUrl.setForeground(Color.BLUE.darker());
         lblWikiActorUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblWikiActorUrl.addMouseListener(new MouseAdapter() {
@@ -206,7 +209,30 @@ class MoviePanel extends JPanel {
             }
 
         });
-        noIdea.add(lblWikiActorUrl, BorderLayout.CENTER);
+        lblMovieUrl = new JLabel("lblMovieUrl");
+        lblMovieUrl.setForeground(Color.BLUE.darker());
+        lblMovieUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lblMovieUrl.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (movieUrl != null) {
+                    try {
+                        Desktop.getDesktop().browse(movieUrl.toURI());
+                    } catch (URISyntaxException | IOException ex) {
+                        Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+        });
+
+        JPanel pnlWikiLinks = new JPanel();
+        noIdea.add(pnlWikiLinks, BorderLayout.CENTER);
+        pnlWikiLinks.setLayout(new BoxLayout(pnlWikiLinks, BoxLayout.Y_AXIS));
+        pnlWikiLinks.add(lblWikiMovieUrl);
+        pnlWikiLinks.add(lblMovieUrl);
+        pnlWikiLinks.add(lblWikiActorUrl);
         pnlLeft.add(noIdea); // nmagic Panel!
 
         add(pnlLeft, BorderLayout.CENTER);
@@ -282,8 +308,15 @@ class MoviePanel extends JPanel {
         lblWikiMovieUrl.setText(this.wikiMovieUrl == null ? null : this.wikiMovieUrl.toExternalForm());
     }
 
+    void setMovieUrl(URL url) {
+        this.movieUrl = url;
+        lblMovieUrl.setText(this.movieUrl == null ? null : this.movieUrl.toExternalForm());
+    }
+
     void setActorWiki(URL url) {
         this.wikiActorUrl = url;
+        lblWikiActorUrl.setText(this.wikiActorUrl == null ? null : this.wikiActorUrl.toExternalForm());
 
     }
+
 }

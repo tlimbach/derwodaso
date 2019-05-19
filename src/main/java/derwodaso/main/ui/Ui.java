@@ -130,8 +130,12 @@ public class Ui {
         
     }
     
-    public void setMovieWiki(URL url) {
+    public void setUrlMovieWiki(URL url) {
         pnlMovie.setMovieWikiUrl(url);
+    }
+    
+     public void setUrlMovie(URL url) {
+        pnlMovie.setMovieUrl(url);
     }
     
     public void setActorWiki(URL url) {
@@ -164,6 +168,8 @@ public class Ui {
     public void showNoResults(String text) {
         JOptionPane.showMessageDialog(frame, text, "Leiderr nichts gefunden", JOptionPane.INFORMATION_MESSAGE);
     }
+
+   
 
     
 

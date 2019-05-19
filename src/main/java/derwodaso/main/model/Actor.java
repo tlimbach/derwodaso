@@ -41,13 +41,13 @@ public class Actor {
     public String toString() {
         return getName();
     }
-      public void setUrlWiki(URL urlWiki) {
+
+    public void setUrlWiki(URL urlWiki) {
         this.urlWiki = urlWiki;
     }
 
     public URL getUrlWiki() {
         return urlWiki;
     }
-    
-    
+
 }

@@ -27,8 +27,11 @@ public class HttpURLConnectionService {
         this.container = container;
     }
 
-    public synchronized  String sendGoogleGet(Pattern pattern, String urlAsString) throws IOException {
-        container.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    public synchronized String sendDuckDuckGoGet(String urlAsString) throws IOException {
+
+        if (container != null) {
+            container.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        }
 
         String url = null;
 
@@ -37,7 +40,9 @@ public class HttpURLConnectionService {
         if (map.get(urlAsString) != null) {
             cacheCounter++;
             System.out.println("cache counter " + cacheCounter);
-            container.setCursor(Cursor.getDefaultCursor());
+            if (container != null) {
+                container.setCursor(Cursor.getDefaultCursor());
+            }
             return map.get(urlAsString);
         }
 
@@ -47,35 +52,31 @@ public class HttpURLConnectionService {
         con.setRequestMethod("GET");
 
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
+        con.setRequestProperty("Accept-Language", "de-DE");
+//        con.setRequestProperty("User-Agent", "Mozilla/5.0");
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + urlAsString);
         System.out.println("Response Code : " + responseCode);
 
+        StringBuffer response;
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream(), "UTF-8"))) {
             String inputLine;
-
+            response = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
-                Matcher matcher = pattern.matcher(inputLine);
-                while (matcher.find()) {
-                    String urlWiki = matcher.group();
-                    urlWiki = urlWiki.substring(0, urlWiki.length() - 1);
-                    urlWiki = URLDecoder.decode(urlWiki, "UTF-8");
-
-                    if (useCache) {
-                        map.put(urlAsString, urlWiki);
-                    }
-                    container.setCursor(Cursor.getDefaultCursor());
-                    return urlWiki;
-                }
+                response.append(inputLine);
             }
         }
-        container.setCursor(Cursor.getDefaultCursor());
-        return url;
+        String responeAsString = response.toString();
+        System.out.println("res:" + responeAsString);
+        if (container != null) {
+            container.setCursor(Cursor.getDefaultCursor());
+        }
+        return responeAsString;
     }
 
-    public synchronized  String sendGet(String urlAsString) throws Exception {
+    public synchronized String sendGet(String urlAsString) throws Exception {
         long start = System.currentTimeMillis();
         urlAsString += "&language=de";
         urlAsString = urlAsString.replaceAll(" ", "%20");
@@ -95,6 +96,7 @@ public class HttpURLConnectionService {
         con.setRequestMethod("GET");
 
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
+        con.setRequestProperty("Accept-Language", "de-DE");
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + urlAsString);
