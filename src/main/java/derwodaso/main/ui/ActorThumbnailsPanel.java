@@ -18,6 +18,7 @@ import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,6 +74,7 @@ public class ActorThumbnailsPanel extends JPanel {
         private final Caracter caracter;
 
         public CharacterImageLabel(Caracter caracter) throws MalformedURLException {
+            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
             this.caracter = caracter;
             String imgPath = caracter.getActor().getProfilePath();
@@ -83,30 +85,25 @@ public class ActorThumbnailsPanel extends JPanel {
             final JLabel lblCharacterName = new JLabel(caracter.getName(), JLabel.CENTER);
             lblCharacterName.setFont(new Font("Arial", Font.BOLD, 12));
             lblCharacterName.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             ImageIcon image = new ImageIcon(createUrl(imgPath));
+            
             image = new ImageIcon(
                     Helper.getScaledImage(image.getImage(), (155 * image.getIconWidth()) / image.getIconHeight(), 155));
             final JLabel lblImg = new JLabel(image);
             lblImg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             final JLabel lblActorName = new JLabel(actor.getName(), JLabel.CENTER);
             lblActorName.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
-            
-            
-            
-            add(createRidgitArea());
+
+            int height = 3;
+            add(Ui.createRidgitArea(height));
             add(lblCharacterName);
-            add(createRidgitArea());
+            add(Ui.createRidgitArea(height));
             add(lblImg);
-            add(createRidgitArea());
+            add(Ui.createRidgitArea(height));
             add(lblActorName);
-            add(createRidgitArea());
-        }
-        
-        private Component createRidgitArea() {
-            return Box.createRigidArea(new Dimension(5,3));
+            add(Ui.createRidgitArea(height));
         }
 
         private URL createUrl(String imgPath) throws MalformedURLException {

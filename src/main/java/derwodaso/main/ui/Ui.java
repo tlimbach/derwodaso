@@ -22,11 +22,13 @@ import derwodaso.main.Controller;
 import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Collections;
 import java.util.stream.Collectors;
+import javax.swing.Box;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -171,6 +173,8 @@ public class Ui {
 
    
 
-    
+    public static Component createRidgitArea(int height) {
+            return Box.createRigidArea(new Dimension(5,height));
+        }
 
 }

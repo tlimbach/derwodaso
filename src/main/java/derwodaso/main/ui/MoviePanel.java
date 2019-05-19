@@ -20,7 +20,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -156,6 +155,8 @@ class MoviePanel extends JPanel {
         pnlSearchMovie.setLayout(new BorderLayout());
         pnlSearchMovie.add(cbxMovies, BorderLayout.CENTER);
         pnlSearchMovie.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+        int height = 10;
+        pnlLeft.add(Ui.createRidgitArea(height));
         pnlLeft.add(pnlSearchMovie);
 //        add(Box.createRigidArea(new Dimension(0, 5)));
         JPanel pnlActor = new JPanel();
@@ -163,19 +164,21 @@ class MoviePanel extends JPanel {
         pnlActor.setBorder(BorderFactory.createTitledBorder("Schauspieler"));
         pnlActor.add(cbxActors, BorderLayout.CENTER);
         pnlActor.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+        pnlLeft.add(Ui.createRidgitArea(height));
         pnlLeft.add(pnlActor);
 //        add(Box.createRigidArea(new Dimension(0, 5)));
         JPanel pnlCharacter = new JPanel();
         pnlCharacter.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
         pnlCharacter.setLayout(new BorderLayout());
         pnlCharacter.setBorder(BorderFactory.createTitledBorder("Rolle"));
-        pnlCharacter.add(cbxCharacters, BorderLayout.CENTER);;
+        pnlCharacter.add(cbxCharacters, BorderLayout.CENTER);
+        pnlLeft.add(Ui.createRidgitArea(height));
         pnlLeft.add(pnlCharacter);
         pnlLeft.add(Box.createRigidArea(new Dimension(0, 5)));
 
         final JPanel noIdea = new JPanel();
         noIdea.setLayout(new BorderLayout());
-        lblWikiMovieUrl = new JLabel("lblWikiMovieUrl");
+        lblWikiMovieUrl = new JLabel();
         lblWikiMovieUrl.setForeground(Color.BLUE.darker());
         lblWikiMovieUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblWikiMovieUrl.addMouseListener(new MouseAdapter() {
@@ -192,7 +195,7 @@ class MoviePanel extends JPanel {
             }
 
         });
-        lblWikiActorUrl = new JLabel("lblWikiActorUrl");
+        lblWikiActorUrl = new JLabel();
         lblWikiActorUrl.setForeground(Color.BLUE.darker());
         lblWikiActorUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblWikiActorUrl.addMouseListener(new MouseAdapter() {
@@ -209,7 +212,7 @@ class MoviePanel extends JPanel {
             }
 
         });
-        lblMovieUrl = new JLabel("lblMovieUrl");
+        lblMovieUrl = new JLabel();
         lblMovieUrl.setForeground(Color.BLUE.darker());
         lblMovieUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblMovieUrl.addMouseListener(new MouseAdapter() {
@@ -228,11 +231,17 @@ class MoviePanel extends JPanel {
         });
 
         JPanel pnlWikiLinks = new JPanel();
+        pnlWikiLinks.setBorder(BorderFactory.createTitledBorder("Links"));
         noIdea.add(pnlWikiLinks, BorderLayout.CENTER);
         pnlWikiLinks.setLayout(new BoxLayout(pnlWikiLinks, BoxLayout.Y_AXIS));
+        int h = 4;
+        pnlWikiLinks.add(Ui.createRidgitArea(1));
         pnlWikiLinks.add(lblWikiMovieUrl);
+        pnlWikiLinks.add(Ui.createRidgitArea(h));
         pnlWikiLinks.add(lblMovieUrl);
+        pnlWikiLinks.add(Ui.createRidgitArea(h));
         pnlWikiLinks.add(lblWikiActorUrl);
+        pnlWikiLinks.add(Ui.createRidgitArea(h));
         pnlLeft.add(noIdea); // nmagic Panel!
 
         add(pnlLeft, BorderLayout.CENTER);
