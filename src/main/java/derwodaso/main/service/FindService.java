@@ -12,6 +12,8 @@ import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
 import java.awt.Container;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -129,6 +131,10 @@ public class FindService {
         String url = baseUrl + "movie?api_key=" + apiKey + "&query=" + name;
         String res = connService.sendGet(url);
 
+        if (res == null) {
+            return Collections.<Movie>emptyList();
+        }
+
         List<Movie> movies = parseMovieQueryResultForMovies(res);
 
         return movies;
@@ -137,6 +143,10 @@ public class FindService {
     public List<Actor> searchActors(String name) throws Exception {
         String url = baseUrl + "person?api_key=" + apiKey + "&query=" + name;
         String res = connService.sendGet(url);
+
+        if (res == null) {
+            return Collections.<Actor>emptyList();
+        }
 
         List<Actor> actors = parsePersonQueryResultForPersons(res);
 
@@ -147,13 +157,22 @@ public class FindService {
         String url = "https://api.themoviedb.org/3/movie/" + movie.getId() + "?api_key=" + apiKey + "&append_to_response=credits,videos";
         String res = connService.sendGet(url);
 
+        if (res == null) {
+            return Collections.<Caracter>emptyList();
+        }
+
         return parseResultForActorsByMovie(movie, res);
     }
 
     public List<Movie> searchMoviesByActor(Caracter character) throws Exception {
 
         String url = "https://api.themoviedb.org/3/person/" + character.getActor().getId() + "/movie_credits?api_key=" + apiKey;
+
         String res = connService.sendGet(url);
+
+        if (res == null) {
+            return Collections.<Movie>emptyList();
+        }
 
         return parseResultForMoviesByActor(res);
     }
