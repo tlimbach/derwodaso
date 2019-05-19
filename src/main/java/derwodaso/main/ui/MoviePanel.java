@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -32,10 +33,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JRadioButton;
 import javax.swing.ListCellRenderer;
+import javax.swing.plaf.basic.BasicBorders;
 
 /**
  *
@@ -57,6 +61,9 @@ class MoviePanel extends JPanel {
     private URL wikiMovieUrl;
     private URL wikiActorUrl;
     private URL movieUrl;
+
+    private JRadioButton rbtnAlphabeic;
+    private JRadioButton rbtnAppeareance;
 
     public MoviePanel(Controller controller) {
         init();
@@ -156,7 +163,7 @@ class MoviePanel extends JPanel {
         pnlSearchMovie.setLayout(new BorderLayout());
         pnlSearchMovie.add(cbxMovies, BorderLayout.CENTER);
         pnlSearchMovie.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
-        int height = 10;
+        int height = 2;
         pnlLeft.add(Ui.createRidgitArea(height));
         pnlLeft.add(pnlSearchMovie);
 //        add(Box.createRigidArea(new Dimension(0, 5)));
@@ -231,6 +238,20 @@ class MoviePanel extends JPanel {
 
         });
 
+        rbtnAlphabeic = new JRadioButton("alphabetisch");
+        rbtnAppeareance = new JRadioButton("nach auftreten");
+        JPanel pnlSortReihenfolge = new JPanel();
+        pnlSortReihenfolge.setLayout(new FlowLayout(FlowLayout.LEADING));
+        pnlSortReihenfolge.setBorder(BorderFactory.createTitledBorder("Sortierung nach"));
+        pnlSortReihenfolge.add(rbtnAlphabeic);
+        pnlSortReihenfolge.add(rbtnAppeareance);
+        ButtonGroup grp = new ButtonGroup();
+        grp.add(rbtnAlphabeic);
+        grp.add(rbtnAppeareance);
+        rbtnAppeareance.setSelected(true);
+
+        pnlLeft.add(pnlSortReihenfolge);
+
         JPanel pnlWikiLinks = new JPanel();
         pnlWikiLinks.setBorder(BorderFactory.createTitledBorder("Links"));
         noIdea.add(pnlWikiLinks, BorderLayout.CENTER);
@@ -258,13 +279,17 @@ class MoviePanel extends JPanel {
     }
 
     public void setActors(List<Actor> actors) {
-        Collections.sort(actors);
+        if (rbtnAlphabeic.isSelected()) {
+            Collections.sort(actors);
+        }
         cbxActors.removeAllItems();
         actors.forEach(a -> cbxActors.addItem(a));
     }
 
     public void setCharacters(List<Caracter> characters) {
-        Collections.sort(characters);
+        if (rbtnAlphabeic.isSelected()) {
+            Collections.sort(characters);
+        }
         cbxCharacters.removeAllItems();
         characters.forEach(cbxCharacters::addItem);
     }
