@@ -61,7 +61,7 @@ public class Controller {
         movies = finder.searchMovies(name);
 
         if (movies.isEmpty()) {
-            showNoResults("Es wurden keine passenden Filme gefuden!");
+            showNoResults("Es wurden keine passenden Filme gefunden.");
         }
         ui.setMoviesForSelection(movies);
     }

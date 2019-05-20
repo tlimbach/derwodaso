@@ -168,7 +168,7 @@ public class Ui {
     }
 
     public void showNoResults(String text) {
-        JOptionPane.showMessageDialog(frame, text, "Leiderr nichts gefunden", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(frame, text, "Leider nichts gefunden", JOptionPane.INFORMATION_MESSAGE);
     }
 
    

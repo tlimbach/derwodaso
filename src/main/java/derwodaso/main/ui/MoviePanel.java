@@ -16,6 +16,7 @@ import derwodaso.main.Helper;
 import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
+import derwodaso.main.service.ImageCache;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -331,10 +332,12 @@ class MoviePanel extends JPanel {
 
     void setPoster(URL url) {
         if (url != null) {
-            ImageIcon image = new ImageIcon(url);
-            image = new ImageIcon(
-                    Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
-            lblPoster.setIcon(image);
+            ImageIcon image = ImageCache.getInstance().getImage(url);
+            if (image != null) {
+                image = new ImageIcon(
+                        Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
+                lblPoster.setIcon(image);
+            }
         } else {
             lblPoster.setIcon(null);
         }

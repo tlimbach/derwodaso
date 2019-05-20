@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import derwodaso.main.Helper;
 import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
+import derwodaso.main.service.ImageCache;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -23,7 +24,6 @@ import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.SwingUtilities;
 
@@ -86,11 +86,14 @@ public class ActorThumbnailsPanel extends JPanel {
             lblCharacterName.setFont(new Font("Arial", Font.BOLD, 12));
             lblCharacterName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            ImageIcon image = new ImageIcon(createUrl(imgPath));
-            
-            image = new ImageIcon(
-                    Helper.getScaledImage(image.getImage(), (155 * image.getIconWidth()) / image.getIconHeight(), 155));
-            final JLabel lblImg = new JLabel(image);
+            final JLabel lblImg = new JLabel();
+
+            ImageIcon image = ImageCache.getInstance().getImage(createUrl(imgPath));
+            if (image != null) {
+                image = new ImageIcon(
+                        Helper.getScaledImage(image.getImage(), (155 * image.getIconWidth()) / image.getIconHeight(), 155));
+                lblImg.setIcon(image);
+            }
             lblImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             final JLabel lblActorName = new JLabel(actor.getName(), JLabel.CENTER);

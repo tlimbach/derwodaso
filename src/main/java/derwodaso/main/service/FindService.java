@@ -178,20 +178,24 @@ public class FindService {
     }
 
     public URL searchMovieUrl(Movie movie) {
+        String movieUrl = null;
         try {
             String req = "https://api.duckduckgo.com/?q=" + movie.getTitle() + " film&format=json";
             final String jsonString = connService.sendDuckDuckGoGet(req);
 
-            String movieUrl = getMovieUrl(jsonString);
+            movieUrl = getMovieUrl(jsonString);
 
             return new URL(movieUrl);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("EX: " + e.getMessage());
+            System.err.println("malformed movie url ? " + movieUrl);
+            
         }
         return null;
     }
 
     public URL searchMovieWikiUrl(Movie movie) {
+        String wikiMovieUrl = null;
         try {
             String request = "https://api.duckduckgo.com/?q=" + movie.getTitle() + " film&format=json";
             String response = connService.sendDuckDuckGoGet(request);
@@ -205,25 +209,28 @@ public class FindService {
             System.out.println("request = " + request);
             response = connService.sendDuckDuckGoGet(request);
 
-            String wikiMovieUrl = getMovieWikiUrl(response);
+            wikiMovieUrl = getMovieWikiUrl(response);
 
             return new URL(wikiMovieUrl);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("e="+e.getMessage());
+            System.err.println("Malformed wiki movie url? " + wikiMovieUrl );
         }
         return null;
     }
 
     public URL searchActorWikiUrl(Actor actor) {
+        String wikiActorUrl = null;
         try {
             String req = "https://api.duckduckgo.com/?q=" + actor.getName() + "&format=json";
             final String jsonString = connService.sendDuckDuckGoGet(req);
 
-            String wikiMovieUrl = getActorWikiUrl(jsonString);
+            wikiActorUrl = getActorWikiUrl(jsonString);
 
-            return new URL(wikiMovieUrl);
+            return new URL(wikiActorUrl);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("e="+e.getMessage());
+            System.err.println("Malformed wiki actor url? " + wikiActorUrl );
         }
         return null;
     }

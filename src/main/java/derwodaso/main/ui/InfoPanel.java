@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import derwodaso.main.Helper;
+import derwodaso.main.service.ImageCache;
 import java.awt.Dimension;
 
 /**
@@ -28,8 +29,8 @@ class InfoPanel extends JPanel {
 
     private void init() {
         lblImage = new JLabel();
-        
-        lblImage.setPreferredSize(new Dimension(300,300));
+
+        lblImage.setPreferredSize(new Dimension(300, 300));
         lblImage.setHorizontalAlignment(JLabel.CENTER);
 
         setLayout(new BorderLayout());
@@ -37,11 +38,13 @@ class InfoPanel extends JPanel {
     }
 
     public void setImage(URL url) {
-        
-        ImageIcon image = new ImageIcon(url);
-        image = new ImageIcon(
-                Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
-        lblImage.setIcon(image);
+
+        if (url != null) {
+            ImageIcon image = new ImageIcon(url);
+            image = new ImageIcon(
+                    Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
+            lblImage.setIcon(image);
+        }
 
     }
 }
