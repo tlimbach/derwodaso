@@ -296,7 +296,6 @@ class MoviePanel extends JPanel {
     }
     
     void setMovies(List<Movie> movies) {
-        Collections.sort(movies);
         cbxMovies.removeAllItems();
         movies.forEach(cbxMovies::addItem);
         oldMovies.forEach(cbxMovies::addItem);

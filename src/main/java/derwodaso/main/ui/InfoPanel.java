@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import derwodaso.main.Helper;
-import derwodaso.main.service.ImageCache;
 import java.awt.Dimension;
 
 /**

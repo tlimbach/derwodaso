@@ -42,6 +42,7 @@ public class ActorThumbnailsPanel extends JPanel {
 
     private void init() {
         setLayout(new FlowLayout());
+        add(new JLabel("Huhu"));
     }
 
     public void setCharacters(List<Caracter> characters) throws MalformedURLException {
