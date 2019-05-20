@@ -17,6 +17,7 @@ import derwodaso.main.Helper;
 import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.service.ImageCache;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -25,9 +26,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 public class ActorThumbnailsPanel extends JPanel {
+
+    JPanel pnlInner;
 
     private final Controller controller;
 
@@ -36,17 +41,22 @@ public class ActorThumbnailsPanel extends JPanel {
      * @param controller
      */
     public ActorThumbnailsPanel(Controller controller) {
-        init();
         this.controller = controller;
+        init();
     }
 
     private void init() {
-        setLayout(new FlowLayout());
-        add(new JLabel("Huhu"));
+        setLayout(new BorderLayout());
+        pnlInner = new JPanel();
+        pnlInner.setLayout(new FlowLayout());
+        JScrollPane sp = new JScrollPane(pnlInner);
+        sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        add(sp, BorderLayout.CENTER);
     }
 
     public void setCharacters(List<Caracter> characters) throws MalformedURLException {
-        removeAll();
+        pnlInner.removeAll();
         for (int t = 0; t < characters.size(); t++) {
 
             if (characters.get(t).getActor().getProfilePath() != null) {
@@ -64,7 +74,9 @@ public class ActorThumbnailsPanel extends JPanel {
                     }
                 });
                 SwingUtilities.invokeLater(() -> {
-                    add(cLabel);
+                    pnlInner.add(cLabel);
+                    pnlInner.getParent().revalidate();
+                    
                 });
             }
         }
@@ -132,4 +144,18 @@ public class ActorThumbnailsPanel extends JPanel {
 
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(20, 240);
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return getPreferredSize();
+    }
+    
+    
+
+    
+    
 }

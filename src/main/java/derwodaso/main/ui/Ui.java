@@ -63,7 +63,7 @@ public class Ui {
 
         BorderLayout manager = new BorderLayout();
         manager.setHgap(20);
-        manager.setVgap(20);
+        manager.setVgap(15);
         frame.getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
 
         frame.setLayout(manager);
@@ -76,16 +76,14 @@ public class Ui {
         pnlInfo.setBorder(border);
         pnlMovie.setBorder(border);
 
-        pnlActorThumbnails = createPanelActorThumbnails();
+        pnlActorThumbnails = new ActorThumbnailsPanel(controller);
 
         frame.add(pnlInfo, BorderLayout.WEST);
 
         frame.add(pnlMovie, BorderLayout.CENTER);
         frame.add(pnlMovieList, BorderLayout.EAST);
-        JScrollPane sp = new JScrollPane(pnlActorThumbnails);
-        sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        frame.add(sp, BorderLayout.SOUTH);
+        
+        frame.add(pnlActorThumbnails, BorderLayout.SOUTH);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -98,10 +96,6 @@ public class Ui {
     
     public Container getContainer() {
         return frame; 
-    }
-
-    private ActorThumbnailsPanel createPanelActorThumbnails() {
-        return new ActorThumbnailsPanel(controller);
     }
 
     private InfoPanel createPanelInfo() {
