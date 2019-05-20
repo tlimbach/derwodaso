@@ -23,7 +23,7 @@ public class ImageCache {
     private static ImageCache cache;
     private static String cacheDir = "cache/";
     private int hitcount = 0;
-
+    
     private ImageCache() {
         // nix
     }
@@ -41,7 +41,7 @@ public class ImageCache {
         String key = url.toExternalForm().replaceAll("[/:.]", "");
 
         try {
-            if (new File(cacheDir + key).exists()) {
+            if (HttpURLConnectionService.useCache && new File(cacheDir + key).exists()) {
                 hitcount++;
                 System.out.println("hc = " + hitcount);
                 BufferedImage im = ImageIO.read(new File(cacheDir + key));

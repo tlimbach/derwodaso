@@ -17,7 +17,7 @@ public class HttpURLConnectionService {
 
     Map<String, String> map = new HashMap<>();
 
-    boolean useCache = true;
+    public static boolean useCache = true;
 
     private static int cacheCounter = 0;
     private static int noCacheCounter = 0;
