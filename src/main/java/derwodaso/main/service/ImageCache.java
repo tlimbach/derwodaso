@@ -43,7 +43,7 @@ public class ImageCache {
         try {
             if (HttpURLConnectionService.useCache && new File(cacheDir + key).exists()) {
                 hitcount++;
-                System.out.println("hc = " + hitcount);
+//                System.out.println("hc = " + hitcount);
                 BufferedImage im = ImageIO.read(new File(cacheDir + key));
                 return new ImageIcon(im);
             }

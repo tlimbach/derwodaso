@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class HttpURLConnectionService {
 
@@ -98,15 +95,27 @@ public class HttpURLConnectionService {
             container.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 //        url = url.replaceAll("ß", "%c3");
             URL obj = new URL(urlAsString);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int responseCode = 0;
+            HttpURLConnection con = null;
+            for (int t = 0; t < 3; t++) {
+                con = (HttpURLConnection) obj.openConnection();
 
-            // optional default is GET
-            con.setRequestMethod("GET");
+                // optional default is GET
+                con.setRequestMethod("GET");
 
-            con.setRequestProperty("User-Agent", "Mozilla/5.0");
-            con.setRequestProperty("Accept-Language", "de-DE");
+                con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                con.setRequestProperty("Accept-Language", "de-DE");
 
-            int responseCode = con.getResponseCode();
+                responseCode = con.getResponseCode();
+
+                if (responseCode == 500) {
+                    System.out.println("Error 500 ... waiting to retry " + t);
+                    Thread.sleep(1000);
+                } else {
+                    break;
+                }
+
+            }
             System.out.println("\nSending 'GET' request to URL : " + urlAsString);
             System.out.println("Response Code : " + responseCode);
 
