@@ -36,7 +36,7 @@ class InfoPanel extends JPanel {
         add(lblImage, BorderLayout.CENTER);
     }
 
-    public void setImage(URL url) {
+    public void setMoviePoster(URL url) {
 
         if (url != null) {
             ImageIcon image = new ImageIcon(url);

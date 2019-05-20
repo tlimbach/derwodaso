@@ -339,7 +339,7 @@ class MoviePanel extends JPanel {
         
     }
     
-    void setPoster(URL url) {
+    void setActorPoster(URL url) {
         if (url != null) {
             ImageIcon image = ImageCache.getInstance().getImage(url);
             if (image != null) {

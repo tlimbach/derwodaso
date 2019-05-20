@@ -128,7 +128,7 @@ public class Ui {
         pnlMovie.setActors(actors);
         pnlMovie.setCharacters(characters);
         pnlMovie.selectMovieTitel(movie);
-        pnlMovie.setPoster(urlPoster);
+        pnlInfo.setMoviePoster(urlPoster);
         
     }
     
@@ -149,9 +149,14 @@ public class Ui {
     }
 
     public void setActorImage(URL url) {
-        pnlInfo.setImage(url);
+        pnlMovie.setActorPoster(url);
     }
 
+    public void setPoster(URL url) {
+        pnlInfo.setMoviePoster(url);
+    }
+    
+    
     public synchronized  void setCharctersForMovie(List<Caracter> characters) throws MalformedURLException {
         pnlActorThumbnails.setCharacters(Collections.emptyList());
         frame.revalidate();
@@ -163,9 +168,6 @@ public class Ui {
         pnlMovieList.setMovies(character, movies);
     }
 
-    public void setPoster(URL url) {
-        pnlMovie.setPoster(url);
-    }
 
     public void showNoResults(String text) {
         JOptionPane.showMessageDialog(frame, text, "Leider nichts gefunden", JOptionPane.INFORMATION_MESSAGE);
