@@ -22,6 +22,7 @@ import derwodaso.main.Controller;
 import derwodaso.main.model.Actor;
 import derwodaso.main.model.Caracter;
 import derwodaso.main.model.Movie;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
@@ -42,7 +43,7 @@ public class Ui {
 
     private final JFrame frame;
     private final Controller controller;
-    private final Border border = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
+    private final Border border = BorderFactory.createEtchedBorder();
 
     private final MoviePanel pnlMovie;
     private final InfoPanel pnlInfo;
@@ -148,8 +149,8 @@ public class Ui {
         pnlMovie.selectChacter(c);
     }
 
-    public void setActorImage(URL url) {
-        pnlMovie.setActorPoster(url);
+    public void setActorImage(String actorName, URL url) {
+        pnlMovie.setActorPoster(actorName, url);
     }
 
     public void setPoster(URL url) {

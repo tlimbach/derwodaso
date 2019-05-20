@@ -185,7 +185,7 @@ public class Controller {
 
         String url500 = "http://image.tmdb.org/t/p/w500//" + character.getActor().getProfilePath();
         try {
-            ui.setActorImage(new URL(url500));
+            ui.setActorImage(character.getActor().getName(), new URL(url500));
             ui.setMoviesForCharacter(character, finder.searchMoviesByActor(character));
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

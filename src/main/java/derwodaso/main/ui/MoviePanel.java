@@ -47,9 +47,9 @@ import javax.swing.ListCellRenderer;
  * @author tlimbach
  */
 class MoviePanel extends JPanel {
-    
+
     private final Controller controller;
-    
+
     private JComboBox<Movie> cbxMovies;
     private JComboBox<Actor> cbxActors;
     private JComboBox<Caracter> cbxCharacters;
@@ -62,26 +62,26 @@ class MoviePanel extends JPanel {
     private URL wikiMovieUrl;
     private URL wikiActorUrl;
     private URL movieUrl;
-    
+
     private JRadioButton rbtnAlphabeic;
     private JRadioButton rbtnAppeareance;
-    
+
     public MoviePanel(Controller controller) {
         init();
-        
+
         this.controller = controller;
     }
-    
+
     private void init() {
         setLayout(new BorderLayout());
         pnlLeft = new JPanel();
         pnlLeft.setLayout(new BoxLayout(pnlLeft, BoxLayout.Y_AXIS));
-        
+
         cbxMovies = new JComboBox<>();
         cbxMovies.setEditable(true);
-        
+
         cbxMovies.addActionListener(a -> {
-            
+
             if (cbxMovies.getSelectedItem() != null && cbxMovies.getSelectedItem() instanceof Movie) {
                 Movie movie = (Movie) cbxMovies.getSelectedItem();
                 try {
@@ -92,7 +92,7 @@ class MoviePanel extends JPanel {
             }
         });
         cbxMovies.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            
+
             @Override
             public void keyReleased(KeyEvent event) {
                 if (event.getKeyChar() == KeyEvent.VK_ENTER) {
@@ -104,17 +104,17 @@ class MoviePanel extends JPanel {
             @Override
             public Component getListCellRendererComponent(JList<? extends Movie> list, Movie value, int index, boolean isSelected, boolean cellHasFocus) {
                 final JLabel lbl = new JLabel(value.getTitle());
-                
+
                 if (isSelected) {
                     lbl.setBackground(Color.DARK_GRAY);
                     lbl.setForeground(Color.white);
                     lbl.setOpaque(true);
                 }
-                
+
                 return lbl;
             }
         });
-        
+
         cbxActors = new JComboBox<>();
         cbxActors.setEditable(true);
         cbxActors.addActionListener((a)
@@ -127,9 +127,9 @@ class MoviePanel extends JPanel {
                 Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         cbxActors.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            
+
             @Override
             public void keyReleased(KeyEvent event) {
                 if (event.getKeyChar() == KeyEvent.VK_ENTER) {
@@ -141,7 +141,7 @@ class MoviePanel extends JPanel {
                 }
             }
         });
-        
+
         cbxCharacters = new JComboBox<>();
         cbxCharacters.addActionListener((a)
                 -> {
@@ -153,12 +153,13 @@ class MoviePanel extends JPanel {
                 Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         pnlPoster = new JPanel();
         pnlPoster.setLayout(new BorderLayout());
+        pnlPoster.setBorder(BorderFactory.createTitledBorder(""));
         lblPoster = new JLabel();
         pnlPoster.add(lblPoster, BorderLayout.CENTER);
-        
+
         JPanel pnlSearchMovie = new JPanel();
         pnlSearchMovie.setBorder(BorderFactory.createTitledBorder("Film"));
         pnlSearchMovie.setLayout(new BorderLayout());
@@ -184,7 +185,7 @@ class MoviePanel extends JPanel {
         pnlLeft.add(Ui.createRidgitArea(height));
         pnlLeft.add(pnlCharacter);
         pnlLeft.add(Box.createRigidArea(new Dimension(0, 5)));
-        
+
         final JPanel noIdea = new JPanel();
         noIdea.setLayout(new BorderLayout());
         lblWikiMovieUrl = new JLabel();
@@ -193,7 +194,7 @@ class MoviePanel extends JPanel {
         lblWikiMovieUrl.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
                 if (wikiMovieUrl != null) {
                     try {
                         Desktop.getDesktop().browse(wikiMovieUrl.toURI());
@@ -202,7 +203,7 @@ class MoviePanel extends JPanel {
                     }
                 }
             }
-            
+
         });
         lblWikiActorUrl = new JLabel();
         lblWikiActorUrl.setForeground(Color.BLUE.darker());
@@ -210,7 +211,7 @@ class MoviePanel extends JPanel {
         lblWikiActorUrl.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
                 if (wikiActorUrl != null) {
                     try {
                         Desktop.getDesktop().browse(wikiActorUrl.toURI());
@@ -219,7 +220,7 @@ class MoviePanel extends JPanel {
                     }
                 }
             }
-            
+
         });
         lblMovieUrl = new JLabel();
         lblMovieUrl.setForeground(Color.BLUE.darker());
@@ -227,7 +228,7 @@ class MoviePanel extends JPanel {
         lblMovieUrl.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
                 if (movieUrl != null) {
                     try {
                         Desktop.getDesktop().browse(movieUrl.toURI());
@@ -236,23 +237,23 @@ class MoviePanel extends JPanel {
                     }
                 }
             }
-            
+
         });
-        
+
         rbtnAlphabeic = new JRadioButton("alphabetisch");
         rbtnAppeareance = new JRadioButton("nach auftreten");
         JPanel pnlSortReihenfolge = new JPanel();
         pnlSortReihenfolge.setLayout(new FlowLayout(FlowLayout.LEADING));
-        pnlSortReihenfolge.setBorder(BorderFactory.createTitledBorder("Sortierung nach"));
+        pnlSortReihenfolge.setBorder(BorderFactory.createTitledBorder("Sortierung..."));
         pnlSortReihenfolge.add(rbtnAlphabeic);
         pnlSortReihenfolge.add(rbtnAppeareance);
         ButtonGroup grp = new ButtonGroup();
         grp.add(rbtnAlphabeic);
         grp.add(rbtnAppeareance);
         rbtnAppeareance.setSelected(true);
-        
+
         pnlLeft.add(pnlSortReihenfolge);
-        
+
         JPanel pnlWikiLinks = new JPanel();
         pnlWikiLinks.setBorder(BorderFactory.createTitledBorder("Links"));
         noIdea.add(pnlWikiLinks, BorderLayout.CENTER);
@@ -270,7 +271,7 @@ class MoviePanel extends JPanel {
         add(pnlLeft, BorderLayout.CENTER);
         add(pnlPoster, BorderLayout.EAST);
     }
-    
+
     private void searchMovie(String name) {
         try {
             controller.searchMovies(name);
@@ -278,7 +279,7 @@ class MoviePanel extends JPanel {
             Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void setActors(List<Actor> actors) {
         if (rbtnAlphabeic.isSelected()) {
             Collections.sort(actors);
@@ -286,7 +287,7 @@ class MoviePanel extends JPanel {
         cbxActors.removeAllItems();
         actors.forEach(a -> cbxActors.addItem(a));
     }
-    
+
     public void setCharacters(List<Caracter> characters) {
         if (rbtnAlphabeic.isSelected()) {
             Collections.sort(characters);
@@ -294,16 +295,16 @@ class MoviePanel extends JPanel {
         cbxCharacters.removeAllItems();
         characters.forEach(cbxCharacters::addItem);
     }
-    
+
     void setMovies(List<Movie> movies) {
         cbxMovies.removeAllItems();
         movies.forEach(cbxMovies::addItem);
         oldMovies.forEach(cbxMovies::addItem);
-    } 
-    
+    }
+
     void selectChacter(Caracter c) {
         cbxActors.setSelectedItem(c.getActor());
-        
+
         if (c.getName().equals("---")) {
             cbxCharacters.removeAllItems();
             cbxMovies.removeAllItems();
@@ -311,35 +312,37 @@ class MoviePanel extends JPanel {
             cbxCharacters.setSelectedItem(c);
         }
     }
-    
+
     List<Movie> oldMovies = new ArrayList<>();
-    
+
     void selectMovieTitel(Movie movie) {
-        
+
         if (!oldMovies.contains(movie)) {
             oldMovies.add(movie);
         }
-        
-        if (oldMovies.size()>15)
+
+        if (oldMovies.size() > 15) {
             oldMovies.remove(0);
-        
+        }
+
         boolean found = false;
-        
+
         for (int t = 0; t < cbxMovies.getItemCount(); t++) {
             if (cbxMovies.getItemAt(t).equals(movie)) {
                 cbxMovies.setSelectedIndex(t);
                 found = true;
             }
         }
-        
+
         if (!found) {
             cbxMovies.addItem(movie);
             cbxMovies.setSelectedItem(movie);
         }
-        
+
     }
-    
-    void setActorPoster(URL url) {
+
+    void setActorPoster(String actorName, URL url) {
+        pnlPoster.setBorder(BorderFactory.createTitledBorder(actorName));
         if (url != null) {
             ImageIcon image = ImageCache.getInstance().getImage(url);
             if (image != null) {
@@ -350,23 +353,25 @@ class MoviePanel extends JPanel {
         } else {
             lblPoster.setIcon(null);
         }
-        
+
     }
-    
+
     void setMovieWikiUrl(URL wikiMovie) {
         this.wikiMovieUrl = wikiMovie;
         lblWikiMovieUrl.setText(this.wikiMovieUrl == null ? null : this.wikiMovieUrl.toExternalForm());
+        lblWikiMovieUrl.setToolTipText(lblWikiMovieUrl.getText());
     }
-    
+
     void setMovieUrl(URL url) {
         this.movieUrl = url;
         lblMovieUrl.setText(this.movieUrl == null ? null : this.movieUrl.toExternalForm());
+        lblMovieUrl.setToolTipText(lblMovieUrl.getText());
     }
-    
+
     void setActorWiki(URL url) {
         this.wikiActorUrl = url;
         lblWikiActorUrl.setText(this.wikiActorUrl == null ? null : this.wikiActorUrl.toExternalForm());
-        
+        lblWikiActorUrl.setToolTipText(lblWikiActorUrl.getText());
     }
-    
+
 }
