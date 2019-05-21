@@ -94,13 +94,15 @@ public class Controller {
             characters = finder.searchCharacters(currentMovie);
             final List<Actor> actors = characters.stream().map(c -> c.getActor()).collect(Collectors.toList());
 
-            String url = "http://image.tmdb.org/t/p/w300//" + this.currentMovie.getPosterPath();
-
             Movie _movie = this.currentMovie;
             setUrlWiki(_movie);
             setUrlMovie(_movie);
 
-            ui.setSelectedMovie(this.currentMovie, new URL(url), actors, characters);
+            URL url = null;
+            if (this.currentMovie.getPosterPath() != null) {
+                url = new URL("http://image.tmdb.org/t/p/w300//" + this.currentMovie.getPosterPath());
+            }
+            ui.setSelectedMovie(this.currentMovie, url, actors, characters);
 
             new Thread(() -> {
                 try {
@@ -125,7 +127,7 @@ public class Controller {
                 }
             }
             ui.setUrlMovieWiki(_movie.getUrlWiki());
-            
+
         }).start();
     }
 
@@ -141,7 +143,7 @@ public class Controller {
                 }
             }
             ui.setUrlMovie(_movie.getUrlMovie());
-            
+
         }).start();
     }
 
@@ -173,10 +175,10 @@ public class Controller {
                 } catch (Exception ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
             ui.setActorWiki(_actor.getUrlWiki());
-            
+
         }).start();
     }
 

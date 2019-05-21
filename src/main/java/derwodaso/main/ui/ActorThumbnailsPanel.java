@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -32,7 +33,7 @@ import javax.swing.SwingUtilities;
 
 public class ActorThumbnailsPanel extends JPanel {
 
-    JPanel pnlInner;
+    final JPanel pnlInner;
 
     private final Controller controller;
 
@@ -42,12 +43,13 @@ public class ActorThumbnailsPanel extends JPanel {
      */
     public ActorThumbnailsPanel(Controller controller) {
         this.controller = controller;
+        pnlInner = new JPanel();
         init();
     }
 
     private void init() {
         setLayout(new BorderLayout());
-        pnlInner = new JPanel();
+
         pnlInner.setLayout(new FlowLayout());
         JScrollPane sp = new JScrollPane(pnlInner);
         sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -55,29 +57,46 @@ public class ActorThumbnailsPanel extends JPanel {
         add(sp, BorderLayout.CENTER);
     }
 
+    ImageIcon solutions = null;
+
     public void setCharacters(List<Caracter> characters) throws MalformedURLException {
         pnlInner.removeAll();
-        for (int t = 0; t < characters.size(); t++) {
-
-            if (characters.get(t).getActor().getProfilePath() != null) {
-
-                CharacterImageLabel cLabel = new CharacterImageLabel(characters.get(t));
-                cLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        CharacterImageLabel lbl = (CharacterImageLabel) e.getSource();
-                        try {
-                            controller.setActor(lbl.getCaracter().getActor());
-                        } catch (Exception ex) {
-                            Logger.getLogger(ActorThumbnailsPanel.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
-                SwingUtilities.invokeLater(() -> {
-                    pnlInner.add(cLabel);
+        if (characters == null || characters.isEmpty()) {
+            solutions = new ImageIcon(this.getClass().getResource("/logo_mit_blumen.png"));
+            int size = 180;
+            solutions = new ImageIcon(
+                    Helper.getScaledImage(solutions.getImage(), (180 * solutions.getIconWidth()) / solutions.getIconHeight(), size));
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    final JLabel jLabel = new JLabel(solutions);
+                    pnlInner.add(jLabel);
                     pnlInner.getParent().revalidate();
-                    
-                });
+                }
+            });
+        } else {
+            for (int t = 0; t < characters.size(); t++) {
+
+                if (characters.get(t).getActor().getProfilePath() != null) {
+
+                    CharacterImageLabel cLabel = new CharacterImageLabel(characters.get(t));
+                    cLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            CharacterImageLabel lbl = (CharacterImageLabel) e.getSource();
+                            try {
+                                controller.setActor(lbl.getCaracter().getActor());
+                            } catch (Exception ex) {
+                                Logger.getLogger(ActorThumbnailsPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
+                    SwingUtilities.invokeLater(() -> {
+                        pnlInner.add(cLabel);
+                        pnlInner.getParent().revalidate();
+
+                    });
+                }
             }
         }
     }
@@ -153,9 +172,5 @@ public class ActorThumbnailsPanel extends JPanel {
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
-    
-    
 
-    
-    
 }

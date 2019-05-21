@@ -94,6 +94,7 @@ public class Ui {
         
         setPoster(null);
         setActorImage("", new URL("http://127.0.0.1/ismiegal"));
+        setCharctersForMovie(Collections.emptyList());
 
     }
     
@@ -156,8 +157,8 @@ public class Ui {
     
     
     public synchronized  void setCharctersForMovie(List<Caracter> characters) throws MalformedURLException {
-        pnlActorThumbnails.setCharacters(Collections.emptyList());
-        frame.revalidate();
+//        pnlActorThumbnails.setCharacters(null);
+//        frame.revalidate();
         pnlActorThumbnails.setCharacters(characters);
         frame.revalidate();
     }

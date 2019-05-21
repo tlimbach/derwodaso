@@ -37,13 +37,16 @@ class InfoPanel extends JPanel {
     }
 
     public void setMoviePoster(URL url) {
-
         if (url != null) {
-            ImageIcon image = new ImageIcon(url);
-            image = new ImageIcon(
-                    Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
-            lblImage.setIcon(image);
-
+            try {
+                ImageIcon image = new ImageIcon(url);
+                image = new ImageIcon(
+                        Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
+                lblImage.setIcon(image);
+            } catch (Exception e) {
+                lblImage.setIcon(new ImageIcon(this.getClass().getResource("/blumentpott2.png")));
+                e.printStackTrace();
+            }
         } else {
             lblImage.setIcon(new ImageIcon(this.getClass().getResource("/blumentpott2.png")));
         }
