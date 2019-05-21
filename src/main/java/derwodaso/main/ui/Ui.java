@@ -91,6 +91,9 @@ public class Ui {
         frame.pack();
         frame.setTitle("Derwodaso");
         frame.setVisible(true);
+        
+        setPoster(null);
+        setActorImage("", new URL("http://127.0.0.1/ismiegal"));
 
     }
     
@@ -167,7 +170,6 @@ public class Ui {
     public void showNoResults(String text) {
         JOptionPane.showMessageDialog(frame, text, "Leider nichts gefunden", JOptionPane.INFORMATION_MESSAGE);
     }
-
    
 
     public static Component createRidgitArea(int height) {

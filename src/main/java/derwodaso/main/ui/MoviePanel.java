@@ -345,13 +345,16 @@ class MoviePanel extends JPanel {
         pnlPoster.setBorder(BorderFactory.createTitledBorder(actorName));
         if (url != null) {
             ImageIcon image = ImageCache.getInstance().getImage(url);
-            if (image != null) {
-                image = new ImageIcon(
-                        Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
-                lblPoster.setIcon(image);
+
+            if (image == null)
+            {
+                image = new ImageIcon(this.getClass().getResource("/karlchenrotgelb3.jpg"));
             }
-        } else {
-            lblPoster.setIcon(null);
+
+            image = new ImageIcon(
+                    Helper.getScaledImage(image.getImage(), (370 * image.getIconWidth()) / image.getIconHeight(), 370));
+            lblPoster.setIcon(image);
+
         }
 
     }

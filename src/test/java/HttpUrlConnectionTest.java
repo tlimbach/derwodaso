@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -96,6 +97,23 @@ public class HttpUrlConnectionTest {
         HttpURLConnectionService con = new HttpURLConnectionService(null);
 
         String url = "https://api.duckduckgo.com/?q=" + actorName + "&format=json";
+
+        System.out.println("request = " + url);
+        String response = con.sendDuckDuckGoGet(url);
+
+        System.out.println("response = " + response);
+
+        assertTrue(response.contains("de.wikipedia.org"));
+    }
+    
+    @Ignore // Keine Ahnung, warum das einen Fehler 400 gibt ...
+    @Test
+    public void testDuckDuckGoNinaHossUrl() throws Exception {
+
+        String url ="https://api.duckduckgo.com/?q=Nina Hoss&format=json";
+
+        HttpURLConnectionService con = new HttpURLConnectionService(null);
+       
 
         System.out.println("request = " + url);
         String response = con.sendDuckDuckGoGet(url);

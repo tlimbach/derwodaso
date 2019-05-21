@@ -28,23 +28,21 @@ public class HttpURLConnectionService {
         String responeAsString = null;
 
         try {
-            if (container != null) {
-                container.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            }
-
             String url = null;
 
             urlAsString = urlAsString.replaceAll("[()-]", "");
 
             if (map.get(urlAsString) != null) {
                 cacheCounter++;
-                System.out.println("cache counter " + cacheCounter);
+//                System.out.println("cache counter " + cacheCounter);
                 if (container != null) {
                     container.setCursor(Cursor.getDefaultCursor());
                 }
                 return map.get(urlAsString);
             }
-
+   if (container != null) {
+                container.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            }
             URL obj = new URL(urlAsString);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -52,11 +50,14 @@ public class HttpURLConnectionService {
 
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             con.setRequestProperty("Accept-Language", "de-DE");
-//        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
 
             int responseCode = con.getResponseCode();
             System.out.println("\nSending 'GET' request to URL : " + urlAsString);
-            System.out.println("Response Code : " + responseCode);
+
+            if (responseCode != 200) {
+                System.out.println("Response Code : " + responseCode);
+            }
 
             StringBuffer response;
             try (BufferedReader in = new BufferedReader(
@@ -68,13 +69,18 @@ public class HttpURLConnectionService {
                 }
             }
             responeAsString = response.toString();
-            System.out.println("res:" + responeAsString);
+            if (responseCode != 200) {
+                System.out.println("res:" + responeAsString);
+            }
             if (container != null) {
                 container.setCursor(Cursor.getDefaultCursor());
             }
         } catch (Exception e) {
             e.printStackTrace();
             // schade schade...
+               if (container != null) {
+                container.setCursor(Cursor.getDefaultCursor());
+            }
         }
         return responeAsString;
     }
@@ -88,7 +94,7 @@ public class HttpURLConnectionService {
 
             if (map.get(urlAsString) != null) {
                 cacheCounter++;
-                System.out.println("cache counter " + cacheCounter);
+//                System.out.println("cache counter " + cacheCounter);
                 return map.get(urlAsString);
             }
 
@@ -107,6 +113,8 @@ public class HttpURLConnectionService {
                 con.setRequestProperty("Accept-Language", "de-DE");
 
                 responseCode = con.getResponseCode();
+                String mainigRequests = con.getHeaderField("X-RateLimit-Remaining");
+                System.out.println("remaining request " + mainigRequests);
 
                 if (responseCode == 500) {
                     System.out.println("Error 500 ... waiting to retry " + t);
@@ -117,7 +125,10 @@ public class HttpURLConnectionService {
 
             }
             System.out.println("\nSending 'GET' request to URL : " + urlAsString);
-            System.out.println("Response Code : " + responseCode);
+
+            if (responseCode != 200) {
+                System.out.println("Response Codi: " + responseCode);
+            }
 
             StringBuffer response;
             try (BufferedReader in = new BufferedReader(
@@ -129,18 +140,21 @@ public class HttpURLConnectionService {
                 }
             }
             responeAsString = response.toString();
-            System.out.println("res:" + responeAsString);
+
+            if (responseCode != 200) {
+                System.out.println("res:" + responeAsString);
+            }
 
             if (useCache) {
                 map.put(urlAsString, responeAsString);
             }
 
             noCacheCounter++;
-            System.out.println("noCacheCounter " + noCacheCounter);
-
-            System.out.println("Request took: " + (System.currentTimeMillis() - start) + " ms");
+//            System.out.println("noCacheCounter " + noCacheCounter);
+//            System.out.println("Request took: " + (System.currentTimeMillis() - start) + " ms");
             container.setCursor(Cursor.getDefaultCursor());
         } catch (Exception e) {
+            container.setCursor(Cursor.getDefaultCursor());
             e.printStackTrace();
         }
         return responeAsString;
