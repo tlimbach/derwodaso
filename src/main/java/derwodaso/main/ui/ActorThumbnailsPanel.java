@@ -69,8 +69,11 @@ public class ActorThumbnailsPanel extends JPanel {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
+                    JPanel pnlVeryInner = new JPanel();
+                    pnlVeryInner.setLayout(new BorderLayout(1,30));
                     final JLabel jLabel = new JLabel(solutions);
-                    pnlInner.add(jLabel);
+                    pnlVeryInner.add(jLabel, BorderLayout.SOUTH);
+                    pnlInner.add(pnlVeryInner);
                     pnlInner.getParent().revalidate();
                 }
             });
